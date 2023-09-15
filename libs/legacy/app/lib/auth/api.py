@@ -12,7 +12,7 @@ async def get_api_key(
     api_key_header: str = Security(api_key_header),
     bearer_token_header: str = Security(bearer_token_header),
 ):
-    api_key = api_key_header or bearer_token_header.replace("Bearer ", "")
+    api_key = api_key_header or (bearer_token_header.replace("Bearer ", "") if bearer_token_header is not None else "")
     try:
         prisma.apitoken.find_first(where={"token": api_key})
 
