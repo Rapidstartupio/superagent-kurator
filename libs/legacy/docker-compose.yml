@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  postgres_container:
+    image: postgres:13
+    container_name: postgres_container_kurator
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: superagent_db
+    ports:
+      - 5440:5432
+    volumes:
+      - postgres_data_db_kurator:/var/lib/postgresql/data
+    networks:
+      - superagent-network_kurator
+
+  postgres_container_prod:
+    image: postgres:13
+    container_name: postgres_container_prod_kurator
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: superagent_db_prod
+    ports:
+      - 5441:5432
+    volumes:
+      - postgres_data_prod_db_kurator:/var/lib/postgresql/data
+    networks:
+      - superagent-network_kurator
+
+networks:
+  superagent-network_kurator:
+    driver: bridge
+
+volumes:
+  postgres_data_db_kurator:
+  postgres_data_prod_db_kurator:

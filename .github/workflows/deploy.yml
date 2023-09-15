@@ -1,0 +1,94 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+      - main  # Change this to your production branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy to production
+        env:
+          # your environment variables for ui
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_SUPERAGENT_API_URL: ${{ secrets.NEXT_PUBLIC_SUPERAGENT_API_URL }}
+          NEXT_PUBLIC_SHARABLE_KEY_SECRET: ${{ secrets.NEXT_PUBLIC_SHARABLE_KEY_SECRET }}
+          NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_SEGMENT_WRITE_KEY: ${{ secrets.NEXT_PUBLIC_SEGMENT_WRITE_KEY }}
+          NEXT_PUBLIC_STRIPE_FREE_PLAN_ID: ${{ secrets.NEXT_PUBLIC_STRIPE_FREE_PLAN_ID }}
+          NEXT_PUBLIC_PSYCHIC_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_PSYCHIC_PUBLIC_KEY }}
+          # your environment variables for superagent-latest
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_MIGRATION_URL: ${{ secrets.DATABASE_MIGRATION_URL }}
+          DATABASE_SHADOW_URL: ${{ secrets.DATABASE_SHADOW_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          VECTORSTORE: ${{ secrets.VECTORSTORE }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PINECONE_ENVIRONMENT: ${{ secrets.PINECONE_ENVIRONMENT }}
+          SUPERAGENT_TRACING: ${{ secrets.SUPERAGENT_TRACING }}
+          PSYCHIC_API_KEY: ${{ secrets.PSYCHIC_API_KEY }}
+          BING_SUBSCRIPTION_KEY: ${{ secrets.BING_SUBSCRIPTION_KEY }}
+          BING_SEARCH_URL: ${{ secrets.BING_SEARCH_URL }}
+          WOLFRAM_ALPHA_APPID: ${{ secrets.WOLFRAM_ALPHA_APPID }}
+          REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+          ZAPIER_NLA_API_KEY: ${{ secrets.ZAPIER_NLA_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          HUGGINGFACEHUB_API_TOKEN: ${{ secrets.HUGGINGFACEHUB_API_TOKEN }}
+          AZURE_API_KEY: ${{ secrets.AZURE_API_KEY }}
+          AZURE_API_TYPE: ${{ secrets.AZURE_API_TYPE }}
+          AZURE_API_BASE: ${{ secrets.AZURE_API_BASE }}
+          AZURE_API_VERSION: ${{ secrets.AZURE_API_VERSION }}
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << EOF
+            set -e
+            rm -rf superagent-kurator
+            git clone https://x-access-token:${{ secrets.ORG_GH_TOKEN }}@github.com/Rapidstartupio/superagent-kurator.git
+            cd superagent-kurator/libs/legacy
+            # Writing secrets to the .env file in superagent-latest directory
+            echo "OPENAI_API_KEY=$OPENAI_API_KEY" > .env
+            echo "DATABASE_URL=$DATABASE_URL" >> .env
+            echo "DATABASE_MIGRATION_URL=$DATABASE_MIGRATION_URL" >> .env
+            echo "DATABASE_SHADOW_URL=$DATABASE_SHADOW_URL" >> .env
+            echo "JWT_SECRET=$JWT_SECRET" >> .env
+            echo "VECTORSTORE=$VECTORSTORE" >> .env
+            echo "PINECONE_API_KEY=$PINECONE_API_KEY" >> .env
+            echo "PINECONE_ENVIRONMENT=$PINECONE_ENVIRONMENT" >> .env
+            echo "SUPERAGENT_TRACING=$SUPERAGENT_TRACING" >> .env
+            echo "PSYCHIC_API_KEY=$PSYCHIC_API_KEY" >> .env
+            echo "BING_SUBSCRIPTION_KEY=$BING_SUBSCRIPTION_KEY" >> .env
+            echo "BING_SEARCH_URL=$BING_SEARCH_URL" >> .env
+            echo "WOLFRAM_ALPHA_APPID=$WOLFRAM_ALPHA_APPID" >> .env
+            echo "REPLICATE_API_TOKEN=$REPLICATE_API_TOKEN" >> .env
+            echo "ZAPIER_NLA_API_KEY=$ZAPIER_NLA_API_KEY" >> .env
+            echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY" >> .env
+            echo "COHERE_API_KEY=$COHERE_API_KEY" >> .env
+            echo "HUGGINGFACEHUB_API_TOKEN=$HUGGINGFACEHUB_API_TOKEN" >> .env
+            echo "AZURE_API_KEY=$AZURE_API_KEY" >> .env
+            echo "AZURE_API_TYPE=$AZURE_API_TYPE" >> .env
+            echo "AZURE_API_BASE=$AZURE_API_BASE" >> .env
+            echo "AZURE_API_VERSION=$AZURE_API_VERSION" >> .env
+            # continue with your process
+            docker-compose up -d --force-recreate --build
+            python3.11 -m venv myenv
+            source myenv/bin/activate
+            pip install poetry
+            poetry install
+            poetry run prisma generate
+            poetry run prisma migrate deploy
+            nohup poetry run uvicorn app.main:app --host 0.0.0.0 --reload --port 8003 > uvicorn.log 2>&1 &
+          EOF
