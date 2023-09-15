@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  postgres_container:
+  postgres_container_kurator:
     image: postgres:13
     container_name: postgres_container_kurator
     environment:
@@ -16,7 +16,7 @@ services:
     networks:
       - superagent-network_kurator
 
-  postgres_container_prod:
+  postgres_container_prod_kurator:
     image: postgres:13
     container_name: postgres_container_prod_kurator
     environment:
