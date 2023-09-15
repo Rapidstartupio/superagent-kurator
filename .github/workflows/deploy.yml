@@ -85,5 +85,5 @@ jobs:
             # continue with your process
             cd .docker
             docker-compose --env-file docker.env down
-            docker-compose --env-file docker.env up --force-recreate --build
+            docker-compose --env-file docker.env up --force-recreate --build -d
           EOF
