@@ -62,5 +62,5 @@ volumes:
   pgadmin-data:
 
 networks:
-  superagent_default_network:
+  superagent_default:
     driver: bridge
