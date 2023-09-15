@@ -9,9 +9,9 @@ services:
       dockerfile: Dockerfile
     command: ["/bin/bash", "setup.docker.sh"]
     environment:
-      - PORT=8080
+      - PORT=8003
     ports:
-      - 8080:8080
+      - 8003:8003
     env_file:
       - ../.env
     depends_on:
@@ -29,11 +29,11 @@ services:
         source: pgdb-data
         target: "/var/lib/postgresql/data"
     environment:
-      POSTGRES_DB: admin
+      POSTGRES_DB: superagent
       POSTGRES_USER: ${DBUSER}
       POSTGRES_PASSWORD: ${DBPASS}
     ports:
-      - 5432:5432
+      - 5440:5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DBUSER}"]
       interval: 30s

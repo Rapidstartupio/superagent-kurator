@@ -83,12 +83,7 @@ jobs:
             echo "AZURE_API_BASE=$AZURE_API_BASE" >> .env
             echo "AZURE_API_VERSION=$AZURE_API_VERSION" >> .env
             # continue with your process
-            docker-compose up -d --force-recreate --build
-            python3.11 -m venv myenv
-            source myenv/bin/activate
-            pip install poetry
-            poetry install
-            poetry run prisma generate
-            poetry run prisma migrate deploy
-            nohup poetry run uvicorn app.main:app --host 0.0.0.0 --reload --port 8003 > uvicorn.log 2>&1 &
+            cd .docker
+            docker-compose --env-file docker.env down
+            docker-compose --env-file docker.env up --build -d
           EOF
