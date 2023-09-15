@@ -176,15 +176,9 @@ async def patch_agent(agentId: str, body: dict, token=Depends(JWTBearer())):
 @router.post(
     "/agents/{agentId}/predict",
     name="Prompt agent",
-    description="Invoke a specific agent",
-    response_model=PredictAgentOutput,
+    description="Invoke a specific agent"
 )
-@router.post(
-    "/agents/{agentId}/predict",
-    name="Prompt agent",
-    description="Invoke a specific agent",
-    response_model=PredictAgentOutput,
-)
+
 async def run_agent(
     agentId: str,
     body: PredictAgent,
