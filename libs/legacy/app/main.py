@@ -48,11 +48,15 @@ app.add_middleware(
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
-    start_time = time.time()
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    print(f"Total request time: {process_time} secs")
-    return response
+    try:
+        start_time = time.time()
+        response = await call_next(request)
+        process_time = time.time() - start_time
+        print(f"Total request time: {process_time} secs")
+        return response
+    except Exception as e:
+        print(f"Error in middleware: {e}")
+        raise
 
 
 @app.on_event("startup")
