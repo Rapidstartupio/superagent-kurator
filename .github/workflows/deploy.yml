@@ -84,6 +84,7 @@ jobs:
             echo "AZURE_API_VERSION=$AZURE_API_VERSION" >> .env
             # continue with your process
             cd .docker
+            docker network create superagent_default
             docker-compose --env-file docker.env down
             docker-compose --env-file docker.env up --force-recreate --build
           EOF
