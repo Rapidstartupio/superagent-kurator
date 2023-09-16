@@ -25,6 +25,30 @@ import { FaGithub, FaMicrosoft, FaGoogle } from "react-icons/fa6";
 import { analytics } from "@/lib/analytics";
 
 export default function Login() {
+
+  useEffect(() => {
+    const handleLoginMessage = (event) => {
+      if (event.origin === 'https://kurator.ai') {
+        const emailInput = document.querySelector('input[name="email"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const loginForm = document.querySelector('form');
+
+        const { email, password } = event.data;
+
+        const mydata={ email, password }
+
+        onSubmit(mydata)
+      }
+    };
+
+    window.addEventListener('message', handleLoginMessage);
+
+    return () => {
+      window.removeEventListener('message', handleLoginMessage);
+    };
+  }, []);
+
+
   const hasOauthOptions =
     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
     process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID ||
