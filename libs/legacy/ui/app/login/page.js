@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import { SUPERAGENT_VERSION } from "@/lib/constants";
 import { FaGithub, FaMicrosoft, FaGoogle } from "react-icons/fa6";
 import { analytics } from "@/lib/analytics";
+import { useEffect } from "react";
 
 export default function Login() {
 
