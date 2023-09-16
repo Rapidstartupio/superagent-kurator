@@ -98,6 +98,37 @@ export const options = {
       return baseUrl;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: '__Secure-next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        secure: true, // Ensure this is set when sameSite is 'none'
+
+      },
+    },
+    callbackUrl: {
+      name: '__Secure-next-auth.callback-url',
+      options: {
+        sameSite: 'none',
+        secure: true, // Ensure this is set when sameSite is 'none'
+        path: '/',
+
+      },
+    },
+    csrfToken: {
+      name: '__Host-next-auth.csrf-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        secure: true, // Ensure this is set when sameSite is 'none'
+    // Optionally, if you have a specific domain
+      }
+    },
+  },
   pages: {
     signIn: "/login",
     signOut: "/",
