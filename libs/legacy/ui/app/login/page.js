@@ -74,6 +74,7 @@ export default function Login() {
       redirect: true,
       callbackUrl: "/",
     });
+    window.parent.postMessage({ type: 'loginSuccess' }, 'https://kurator.ai');
   };
 
   const handleOAuth = async (providerId) => {

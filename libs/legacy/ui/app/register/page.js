@@ -18,13 +18,37 @@ import { useForm } from "react-hook-form";
 import { SUPERAGENT_VERSION } from "@/lib/constants";
 import { stripe } from "@/lib/stripe";
 import { analytics } from "@/lib/analytics";
+import { useEffect } from "react";
 
 export default function Register() {
+
   const {
     formState: { isSubmitting, errors },
     register,
     handleSubmit,
   } = useForm();
+  useEffect(() => {
+    const handleLoginMessage = (event) => {
+      if (event.origin === 'https://kurator.ai') {
+        const emailInput = document.querySelector('input[name="email"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const loginForm = document.querySelector('form');
+
+        const {name, email, password } = event.data;
+
+        const mydata={ name , email, password }
+
+        onSubmit(mydata)
+      }
+    };
+
+    window.addEventListener('message', handleLoginMessage);
+
+    return () => {
+      window.removeEventListener('message', handleLoginMessage);
+    };
+  }, []);
+
   const onSubmit = async (data) => {
     let payload = { ...data };
 
@@ -55,6 +79,8 @@ export default function Register() {
         stripe_customer_id: payload.metadata?.stripeCustomerId,
       });
     }
+
+    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai');
 
     await signIn("credentials", {
       email: data.email,
