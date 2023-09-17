@@ -98,7 +98,7 @@ export default function Login() {
       <Stack spacing={8} minHeight="100vh" justifyContent="center">
         <HStack spacing={4} justifyContent="center" alignItems="center">
           <Text as="strong" fontSize="2xl">
-            Superagent
+          Chat Agents
           </Text>
           <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
         </HStack>
