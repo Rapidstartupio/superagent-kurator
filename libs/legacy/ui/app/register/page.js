@@ -88,6 +88,7 @@ export default function Register() {
       redirect: true,
       callbackUrl: "/",
     });
+    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai');
   };
 
   return (
