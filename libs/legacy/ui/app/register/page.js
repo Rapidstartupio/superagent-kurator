@@ -30,9 +30,7 @@ export default function Register() {
   useEffect(() => {
     const handleLoginMessage = (event) => {
       if (event.origin === 'https://kurator.ai') {
-        const emailInput = document.querySelector('input[name="email"]');
-        const passwordInput = document.querySelector('input[name="password"]');
-        const loginForm = document.querySelector('form');
+
 
         const {name, email, password } = event.data;
 
@@ -80,7 +78,7 @@ export default function Register() {
       });
     }
 
-    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai');
+
 
     await signIn("credentials", {
       email: data.email,
