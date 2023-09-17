@@ -76,6 +76,7 @@ export default function Register() {
         name: data.name,
         stripe_customer_id: payload.metadata?.stripeCustomerId,
       });
+      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     }
 
 

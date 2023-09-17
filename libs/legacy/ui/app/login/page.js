@@ -67,6 +67,7 @@ export default function Login() {
   const onSubmit = async (data) => {
     if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
       analytics.track("Signed In");
+      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     }
 
     await signIn("credentials", {
@@ -74,7 +75,7 @@ export default function Login() {
       redirect: true,
       callbackUrl: "/",
     });
-    window.parent.postMessage({ type: 'loginSuccess' }, 'https://kurator.ai');
+    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
   };
 
   const handleOAuth = async (providerId) => {
