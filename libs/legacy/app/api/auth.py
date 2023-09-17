@@ -52,6 +52,18 @@ async def sign_in(signIn: SignIn):
 @router.post("/auth/sign-up", response_model=SignInOutput)
 async def sign_up(body: SignUp):
     try:
+        #find user if exists and
+        myuser = prisma.user.find_first(
+            where={
+                "email": body.email,
+            }
+        )
+        # return user if exists
+        if myuser:
+            logger.warning("User already exists :"+ body.email)
+            return {"success": True, "data": myuser}
+
+
         encryptPassword(body.password)
         user = prisma.user.create(
             {
