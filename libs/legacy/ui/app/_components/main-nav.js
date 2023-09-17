@@ -19,7 +19,7 @@ export default function MainNav() {
     <HStack paddingY={6} justifyContent="space-between">
       <HStack spacing={4}>
         <Text as="strong" color={fontColor} fontSize="lg">
-          Superagent
+        Chat Agents
         </Text>
         <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
       </HStack>
@@ -36,7 +36,7 @@ export default function MainNav() {
         >
           Contribute
         </Link>
-        <Link color={fontColor} href="https://docs.superagent.sh">
+        <Link color={fontColor} href="https://docs.kurator.ai">
           Docs
         </Link>
         <NextLink passHref href="/login">

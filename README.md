@@ -49,17 +49,17 @@ Superagent allows you to build any AI application/micro service you want, includ
 
 
 ## 📋 Documentation
-For full documentation, visit [docs.superagent.sh](https://docs.superagent.sh)
+For full documentation, visit [docs.superagent.sh](https://docs.kurator.ai)
 
 To see how to contribute, visit [Contribution guidelines](https://github.com/homanp/Superagent/blob/main/.github/CONTRIBUTING.md)
 
 ## 🛠️ Getting started
 
-Clone the Superagent repository into a public GitHub repository or fork it from [https://github.com/homanp/superagent/fork](https://github.com/homanp/superagent/fork). 
+Clone the Superagent repository into a public GitHub repository or fork it from [https://github.com/homanp/superagent/fork](https://github.com/homanp/superagent/fork).
 
 If you plan to distribute the code, keep the source code public.
 
-Both the API and UI require a database in order to work. We recommend settings this up on Supabase. 
+Both the API and UI require a database in order to work. We recommend settings this up on Supabase.
 
 <details>
 <summary>Superagent API</summary>
@@ -118,7 +118,7 @@ Both the API and UI require a database in order to work. We recommend settings t
 
 <details>
 <summary>Superagent legacy</summary>
-    
+
 Please refer to the [README](https://github.com/homanp/superagent/blob/v2/libs/legacy/README.md) in `/libs/legacy` for further instructions.
 
 </details>

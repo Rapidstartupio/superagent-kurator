@@ -29,7 +29,7 @@ If you are looking for a plug-n-play way getting started be sure to checkout [Su
 
 ## 🔎 Documentation
 
-Checkout the [full documentation here](https://docs.Superagent.sh/).
+Checkout the [full documentation here](https://docs.kurator.ai/).
 
 ## 🚧 Roadmap
 

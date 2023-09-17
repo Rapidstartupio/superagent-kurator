@@ -55,7 +55,7 @@ export const siteConfig = {
     },
     {
       title: "Documentation",
-      href: "https://docs.superagent.sh",
+      href: "https://docs.kurator.ai",
       icon: RxFileText,
     },
     {
