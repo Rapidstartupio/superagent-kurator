@@ -65,6 +65,7 @@ export default function Register() {
         redirect: true,
         callbackUrl: "/",
       });
+      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     }
     else{
       if (process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
