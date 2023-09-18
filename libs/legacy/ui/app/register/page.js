@@ -28,6 +28,7 @@ export default function Register() {
     handleSubmit,
   } = useForm();
   useEffect(() => {
+    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     const handleLoginMessage = (event) => {
       if (event.origin === 'https://kurator.ai') {
 

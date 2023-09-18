@@ -28,6 +28,7 @@ import { useEffect } from "react";
 export default function Login() {
 
   useEffect(() => {
+    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     const handleLoginMessage = (event) => {
       if (event.origin === 'https://kurator.ai') {
         const emailInput = document.querySelector('input[name="email"]');
