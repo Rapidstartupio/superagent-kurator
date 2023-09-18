@@ -51,7 +51,7 @@ export default function Register() {
     let payload = { ...data };
 
     const responseUser=await ky
-    .get(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/finduser`, {
+    .post(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/finduser`, {
       json: payload,
     })
     .json();

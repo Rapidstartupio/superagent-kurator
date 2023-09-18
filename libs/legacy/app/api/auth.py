@@ -48,7 +48,7 @@ async def sign_in(signIn: SignIn):
         logger.error("Couldn't find user by email", exc_info=e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@router.get("/auth/finduser", response_model=SignInOutput)
+@router.post("/auth/finduser", response_model=SignInOutput)
 async def finduser(body: SignUp):
     try:
         #find user if exists and
