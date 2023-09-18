@@ -70,12 +70,11 @@ export default function Login() {
       window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     }
 
-    const res= signIn("credentials", {
+    await signIn("credentials", {
       ...data,
       redirect: true,
       callbackUrl: "/",
     });
-
     window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
   };
 

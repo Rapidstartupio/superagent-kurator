@@ -8,7 +8,7 @@ from app.lib.auth.prisma import (
     signJWT,
     validatePassword,
 )
-from app.lib.models.auth import OAuth, SignIn, SignInOut, SignInOutput, SignUp
+from app.lib.models.auth import OAuth, SignIn, SignInOut, SignInOutput, SignUp,SignInOutput2
 from app.lib.prisma import prisma
 
 logger = logging.getLogger(__name__)
@@ -48,7 +48,7 @@ async def sign_in(signIn: SignIn):
         logger.error("Couldn't find user by email", exc_info=e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@router.post("/auth/finduser", response_model=SignInOutput)
+@router.post("/auth/finduser", response_model=SignInOutput2)
 async def finduser(body: SignUp):
     try:
         #find user if exists and
