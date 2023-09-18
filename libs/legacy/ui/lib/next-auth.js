@@ -23,6 +23,7 @@ export const options = {
         const { data } = await response.json();
 
         if (response.ok && data.user) {
+          window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
           return {
             user: data.user,
             token: data.token,
