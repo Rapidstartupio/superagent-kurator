@@ -48,6 +48,39 @@ async def sign_in(signIn: SignIn):
         logger.error("Couldn't find user by email", exc_info=e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@router.get("/auth/finduser", response_model=SignInOutput)
+async def finduser(body: SignUp):
+    try:
+        #find user if exists and
+        myuser = prisma.user.find_first(
+            where={
+                "email": body.email,
+            }
+        )
+        # return user if exists
+        if myuser:
+            logger.warning("User already exists :"+ body.email)
+            return {"success": True, "data": myuser,"user_exist":"yes"}
+
+
+        else:
+            logger.warning("User not found")
+            return {"success": True, "data": myuser,"user_exist":"no"}
+
+    except Exception as e:
+        logger.error("Couldn't create user", exc_info=e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    if user:
+        return {"success": True, "data": user}
+
+    logger.error("User not created")
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Invalid credentials",
+    )
+
+
 
 @router.post("/auth/sign-up", response_model=SignInOutput)
 async def sign_up(body: SignUp):
@@ -61,7 +94,7 @@ async def sign_up(body: SignUp):
         # return user if exists
         if myuser:
             logger.warning("User already exists :"+ body.email)
-            return {"success": True, "data": myuser}
+            return {"success": True, "data": myuser,"user_exist":"yes"}
 
 
         encryptPassword(body.password)

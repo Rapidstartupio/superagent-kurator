@@ -50,44 +50,66 @@ export default function Register() {
   const onSubmit = async (data) => {
     let payload = { ...data };
 
-    if (process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
-      const { id: stripeCustomerId } = await stripe.customers.create({
+    const responseUser=await ky
+    .get(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/finduser`, {
+      json: payload,
+    })
+    .json();
+    console.log(responseUser)
+    if(responseUser.user_exist=="yes"){
+      console.log(responseUser)
+
+      await signIn("credentials", {
         email: data.email,
-        name: data.name,
+        password: data.password,
+        redirect: true,
+        callbackUrl: "/",
       });
+    }
+    else{
+      if (process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
+        const { id: stripeCustomerId } = await stripe.customers.create({
+          email: data.email,
+          name: data.name,
+        });
 
-      const subscription = await stripe.subscriptions.create({
-        customer: stripeCustomerId,
-        items: [{ price: process.env.NEXT_PUBLIC_STRIPE_FREE_PLAN_ID }],
+        const subscription = await stripe.subscriptions.create({
+          customer: stripeCustomerId,
+          items: [{ price: process.env.NEXT_PUBLIC_STRIPE_FREE_PLAN_ID }],
+        });
+
+        payload.metadata = { stripe_customer_id: stripeCustomerId, subscription };
+      }
+
+
+
+      await ky
+        .post(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/sign-up`, {
+          json: payload,
+        })
+        .json();
+
+      if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
+        analytics.track("Signed Up", {
+          email: data.email,
+          name: data.name,
+          stripe_customer_id: payload.metadata?.stripeCustomerId,
+        });
+        window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
+      }
+
+
+
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: true,
+        callbackUrl: "/",
       });
-
-      payload.metadata = { stripe_customer_id: stripeCustomerId, subscription };
+      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai');
     }
 
-    await ky
-      .post(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/sign-up`, {
-        json: payload,
-      })
-      .json();
 
-    if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
-      analytics.track("Signed Up", {
-        email: data.email,
-        name: data.name,
-        stripe_customer_id: payload.metadata?.stripeCustomerId,
-      });
-      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
-    }
-
-
-
-    await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: true,
-      callbackUrl: "/",
-    });
-    window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai');
   };
 
   return (
