@@ -64,21 +64,17 @@ async def finduser(body: SignUp):
 
 
         else:
-            logger.warning("User not found")
-            return {"success": True, "data": None,"user_exist":"no"}
+             logger.error("User not created")
+             raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid credentials",
+             )
+
 
     except Exception as e:
         logger.error("Couldn't create user", exc_info=e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    if user:
-        return {"success": True, "data": user}
-
-    logger.error("User not created")
-    raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Invalid credentials",
-    )
 
 
 
