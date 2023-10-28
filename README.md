@@ -17,7 +17,7 @@
 </div>
 
 ## 🧐 Superagent
-Superagent is an open source agent framework that enables any developer to integrate production ready AI Agents in their applications in a matter of minutes.
+Superagent is an opensource agent framework that enables any developer to integrate production ready AI Agents in their applications in a matter of minutes.
 
 ## 🎥 Demo
 
