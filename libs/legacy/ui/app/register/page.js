@@ -69,19 +69,7 @@ export default function Register() {
       window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
     }
     else{
-      if (process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
-        const { id: stripeCustomerId } = await stripe.customers.create({
-          email: data.email,
-          name: data.name,
-        });
 
-        const subscription = await stripe.subscriptions.create({
-          customer: stripeCustomerId,
-          items: [{ price: process.env.NEXT_PUBLIC_STRIPE_FREE_PLAN_ID }],
-        });
-
-        payload.metadata = { stripe_customer_id: stripeCustomerId, subscription };
-      }
 
 
 
@@ -91,14 +79,7 @@ export default function Register() {
         })
         .json();
 
-      if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
-        analytics.track("Signed Up", {
-          email: data.email,
-          name: data.name,
-          stripe_customer_id: payload.metadata?.stripeCustomerId,
-        });
-        window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
-      }
+
 
 
 

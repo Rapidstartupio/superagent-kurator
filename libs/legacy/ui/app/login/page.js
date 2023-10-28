@@ -66,10 +66,7 @@ export default function Login() {
     handleSubmit,
   } = useForm();
   const onSubmit = async (data) => {
-    if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
-      analytics.track("Signed In");
-      window.parent.postMessage({ type: 'registerSuccess' }, 'https://kurator.ai')
-    }
+
 
     await signIn("credentials", {
       ...data,
