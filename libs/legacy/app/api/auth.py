@@ -65,7 +65,7 @@ async def finduser(body: SignUp):
 
         else:
             logger.warning("User not found")
-            return {"success": True, "data": myuser,"user_exist":"no"}
+            return {"success": True, "data": None,"user_exist":"no"}
 
     except Exception as e:
         logger.error("Couldn't create user", exc_info=e)
