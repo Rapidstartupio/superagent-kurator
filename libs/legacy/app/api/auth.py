@@ -60,16 +60,12 @@ async def finduser(body: SignUp):
         # return user if exists
         if myuser:
             logger.warning("User already exists :"+ body.email)
-            return {"success": True, "data": myuser,"user_exist":"yes"}
+            return {"success": True,"user_exist":"yes"}
 
 
         else:
-             logger.error("User not created")
-             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Invalid credentials",
-             )
-
+            logger.warning("User not found")
+            return {"success": True ,"user_exist":"no"}
 
     except Exception as e:
         logger.error("Couldn't create user", exc_info=e)

@@ -19,7 +19,7 @@ class SignInOutput(BaseModel):
 
 class SignInOutput2(BaseModel):
     success: bool
-    data: dict
+
     user_exist:str
 
 class SignUp(BaseModel):
