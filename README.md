@@ -111,7 +111,6 @@ Both the API and UI require a database in order to work. We recommend settings t
 
     ```sh
     npm run dev
-
     ```
 
 </details>
