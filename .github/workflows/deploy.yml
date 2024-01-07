@@ -65,9 +65,10 @@ jobs:
             echo "DATABASE_MIGRATION_URL=$DATABASE_MIGRATION_URL" >> .env
             echo "DATABASE_SHADOW_URL=$DATABASE_SHADOW_URL" >> .env
             echo "JWT_SECRET=$JWT_SECRET" >> .env
-            echo "VECTORSTORE=$VECTORSTORE" >> .env
             echo "PINECONE_API_KEY=$PINECONE_API_KEY" >> .env
             echo "PINECONE_ENVIRONMENT=$PINECONE_ENVIRONMENT" >> .env
+            echo "PINECONE_INDEX=superagent" >> .env
+            echo "VECTORSTORE=pinecone" >> .env
             echo "SUPERAGENT_TRACING=$SUPERAGENT_TRACING" >> .env
             echo "PSYCHIC_API_KEY=$PSYCHIC_API_KEY" >> .env
             echo "BING_SUBSCRIPTION_KEY=$BING_SUBSCRIPTION_KEY" >> .env
