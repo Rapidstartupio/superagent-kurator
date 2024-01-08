@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to production
         env:
-          # your environment variables for ui
+          #your environment variables for ui
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXT_PUBLIC_SUPERAGENT_API_URL: ${{ secrets.NEXT_PUBLIC_SUPERAGENT_API_URL }}
